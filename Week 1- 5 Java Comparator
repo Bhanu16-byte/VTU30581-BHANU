@@ -1,0 +1,32 @@
+import java.util.*;
+
+class Student {
+    int id;
+    String name;
+    double cgpa;
+
+    Student(int id, String name, double cgpa) {
+        this.id = id;
+        this.name = name;
+        this.cgpa = cgpa;
+    }
+}
+
+class Checker implements Comparator<Student> {
+    @Override
+    public int compare(Student a, Student b) {
+        // 1. Higher CGPA comes first (descending)
+        if (a.cgpa != b.cgpa) {
+            return Double.compare(b.cgpa, a.cgpa);
+        }
+
+        // 2. If CGPA is equal, sort alphabetically by name (ascending)
+        int nameCompare = a.name.compareTo(b.name);
+        if (nameCompare != 0) {
+            return nameCompare;
+        }
+
+        // 3. If names are also equal, lower ID comes first (ascending)
+        return Integer.compare(a.id, b.id);
+    }
+}
