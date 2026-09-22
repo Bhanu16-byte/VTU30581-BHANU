@@ -1,0 +1,72 @@
+import java.io.*;
+import java.util.*;
+
+interface PerformOperation {
+    boolean check(int a);
+}
+
+class MyMath {
+    public static boolean checker(PerformOperation p, int num) {
+        return p.check(num);
+    }
+
+    // Lambda for checking Odd/Even (Task expects odd/even check based on problem description)
+    public static PerformOperation isOdd() {
+        return n -> n % 2 != 0;
+    }
+
+    // Lambda for checking Prime
+    public static PerformOperation isPrime() {
+        return n -> {
+            if (n < 2) return false;
+            for (int i = 2; i * i <= n; i++) {
+                if (n % i == 0) return false;
+            }
+            return true;
+        };
+    }
+
+    // Lambda for checking Palindrome
+    public static PerformOperation isPalindrome() {
+        return n -> {
+            int original = n, reverse = 0;
+            while (n > 0) {
+                reverse = reverse * 10 + n % 10;
+                n /= 10;
+            }
+            return original == reverse;
+        };
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
+        PerformOperation op;
+        boolean ret = false;
+        String ans = "";
+        
+        while (T-- > 0) {
+            String s = br.readLine();
+            StringTokenizer st = new StringTokenizer(s);
+            int ch = Integer.parseInt(st.nextToken());
+            int num = Integer.parseInt(st.nextToken());
+            
+            if (ch == 1) {
+                op = MyMath.isOdd();
+                ret = MyMath.checker(op, num);
+                ans = ret ? "ODD" : "EVEN";
+            } else if (ch == 2) {
+                op = MyMath.isPrime();
+                ret = MyMath.checker(op, num);
+                ans = ret ? "PRIME" : "COMPOSITE";
+            } else if (ch == 3) {
+                op = MyMath.isPalindrome();
+                ret = MyMath.checker(op, num);
+                ans = ret ? "PALINDROME" : "NOT PALINDROME";
+            }
+            System.out.println(ans);
+        }
+    }
+}
